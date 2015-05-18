@@ -1,3 +1,3 @@
 #!/bin/sh
 . ./env.sh
-docker run $PORT $LINK $NAME --rm $CONTAINER
+docker run $PORT $LINK $NAME -d $CONTAINER

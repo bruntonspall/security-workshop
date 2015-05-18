@@ -4,28 +4,21 @@ This is a collection of docker based python applications designed to demonstrate
 
 Note that the code in here is deliberately hacky and bad, it has security vulnerabilities by design.  Don't copy this style of coding
 
-To test out the app, do the following (each in a new shell, the debug.sh continues running in the foreground):
+To test out the app, do the following: 
 
 ```
-cd userapi
-./build.sh && ./debug.sh
-
-cd paymentapi
-./build.sh && ./debug.sh
-
-cd web
-./build.sh && ./debug.sh
+./start.sh
 ```
 
-You can then access the webapp on http://localhost:8080
+You can then access the webapp on http://localhost/
 
-You will first need to create some test user accounts, by visiting http://localhost:8081/setup
+This will build and start each of the docker containers for you.
 
-This will create:
+The users created for testing are:
 
 |Username|Password|
 |--------|--------|
-|anna|12345678|
-|admin|123456|
+|anna|letmein|
+|admin|password1|
 
 You can verify that claims have created a payment by visiting http://localhost:8082/payments
