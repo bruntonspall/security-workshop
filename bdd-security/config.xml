@@ -13,10 +13,10 @@
     <!--<defaultDriver>firefox</defaultDriver>-->
 
     <!-- Base URL of the application to test -->
-    <baseUrl>http://localhost:8080/</baseUrl>
+    <baseUrl>http://localhost/</baseUrl>
 
     <!-- Base Secure URL of the application to test.  Used for the SSL and the HTTP header tests -->
-    <baseSecureUrl>https://localhost:8080/</baseSecureUrl>
+    <baseSecureUrl>https://localhost/</baseSecureUrl>
 
     <!-- A Java class to hold the Selenium steps to test the application in depth. Optionally required for in-depth selenium testing.-->
     <class>net.continuumsecurity.WorkshopTasksApplication</class>
