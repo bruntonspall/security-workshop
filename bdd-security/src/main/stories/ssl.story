@@ -8,22 +8,22 @@ I want to verify that good SSL practices have been implemented and known weaknes
 Meta: @story ssl
 
 Scenario: Disable SSL deflate compression in order to mitigate the risk of the CRIME attack
-Meta: @id ssl_crime
+Meta: @id ssl_crime @skip
 Given the SSLyze command is run against the secure base Url
 Then the output must contain the text "Compression disabled"
 
 Scenario: Disable client renegotiations
-Meta: @id ssl_client_renegotiations
+Meta: @id ssl_client_renegotiations @skip
 Given the SSLyze command is run against the secure base Url
 Then the output must contain a line that matches the regular expression ".*Client-initiated Renegotiations:\s+OK - Rejected.*"
 
 Scenario: The minimum cipher strength should be at least 128 bit
-Meta: @id ssl_strong_cipher
+Meta: @id ssl_strong_cipher @skip
 Given the SSLyze command is run against the secure base Url
 Then the minimum key size must be 128 bits
 
 Scenario: Disable weak SSL protocols due to numerous cryptographic weaknesses
-Meta: @id ssl_disabled_protocols
+Meta: @id ssl_disabled_protocols @skip
 Given the SSLyze command is run against the secure base Url
 Then the following protocols must not be supported
 |protocol   |
@@ -32,7 +32,7 @@ Then the following protocols must not be supported
 |SSLV3      |
 
 Scenario: Enable Perfect forward secrecy
-Meta: @id ssl_perfect_forward_secrecy
+Meta: @id ssl_perfect_forward_secrecy @skip
 Given the SSLyze command is run against the secure base Url
 Then any of the following ciphers must be supported
 |cipher                         |
@@ -52,13 +52,13 @@ Then any of the following ciphers must be supported
 |ECDH-RSA-CAMELLIA256-SHA384    |
 
 Scenario: Support TLSv1.2
-Meta: @id ssl_support_strong_protocols
+Meta: @id ssl_support_strong_protocols @skip
 Given the SSLyze command is run against the secure base Url
 Then the following protocols must be supported
 |protocol   |
 |TLSV1_2    |
 
 Scenario: Patch OpenSSL against the Heartbleed vulnerability
-Meta: @id ssl_heartbleed
+Meta: @id ssl_heartbleed @skip
 Given the SSLyze command is run against the secure base Url
 Then the output must contain the text "Not vulnerable to Heartbleed"

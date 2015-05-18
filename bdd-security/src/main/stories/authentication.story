@@ -17,7 +17,7 @@ And the user logs in from a fresh login page
 Then the user is not logged in
 
 Scenario: Present the login form itself over an HTTPS connection
-Meta: @id auth_login_form_over_ssl @cwe-295-auth
+Meta: @id auth_login_form_over_ssl @cwe-295-auth @skip
 Given a new browser instance
 And the browser is configured to use an intercepting proxy
 And the proxy logs are cleared
@@ -27,7 +27,7 @@ Then the protocol should be HTTPS
 
 
 Scenario: Transmit authentication credentials over HTTPS
-Meta: @id auth_https @cwe-319-auth
+Meta: @id auth_https @cwe-319-auth @skip
 Given a new browser instance
 And the browser is configured to use an intercepting proxy
 And the proxy logs are cleared
