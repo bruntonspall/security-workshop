@@ -28,8 +28,8 @@ def index(user):
 def auth():
     username = request.values["username"]
     password = request.values["password"]
-    rows = engine.execute("select id from users where name = '%s' and password = '%s'" % (username, password)).fetchall()
-    if len(rows) == 1:
+    rows = engine.execute("select id from users where name = '%s' and password = '%s'" % (username, password)).first()
+    if rows:
         return jsonify({'status':'ok'})
     else:
         response = jsonify({'code': 404,'message': 'Username or password is incorrect'})
