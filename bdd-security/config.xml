@@ -29,8 +29,8 @@
     </sessionIds>
 
     <users>
-        <user username="admin" password="123456"/>
-        <user username="anna" password="12345678"/>
+        <user username="admin" password="password1"/>
+        <user username="anna" password="letmein"/>
     </users>
 
     <incorrectPassword>SDFsdfwjx1</incorrectPassword>

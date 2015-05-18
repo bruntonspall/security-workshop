@@ -14,8 +14,8 @@ def shutdown_session(exception=None):
 def setup():
     init_db()
     con = engine.connect()
-    con.execute(users.insert(), name='admin', email='admin@localhost', password='123456')
-    con.execute(users.insert(), name='anna', email='anna@localhost', password='12345678')
+    con.execute(users.insert(), name='admin', email='admin@localhost', password='password1')
+    con.execute(users.insert(), name='anna', email='anna@localhost', password='letmein')
     return "ok"
 
 @app.route("/user/<user>")
