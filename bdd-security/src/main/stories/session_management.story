@@ -38,7 +38,7 @@ Then the user is not logged in
 
 
 Scenario: Set the 'secure' flag on the session cookie
-Meta: @id session_cookie_secure
+Meta: @id session_cookie_secure @skip
 Given a new browser instance
 And the default user logs in with credentials from: users.table
 And the user is logged in
