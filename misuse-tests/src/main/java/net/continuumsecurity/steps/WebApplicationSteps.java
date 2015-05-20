@@ -40,9 +40,12 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver;
+import sun.net.www.http.HttpClient;
 
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -597,7 +600,7 @@ public class WebApplicationSteps {
 
     @When("the user has made a claim")
     public void annaHasMadeaClaim() {
-        WebDriver driver = ((WebApplication) app).getWebDriver();
+        WebDriver driver = app.getWebDriver();
         driver.findElement(By.id("sortcode")).clear();
         driver.findElement(By.id("sortcode")).sendKeys("102030");
         driver.findElement(By.id("account")).clear();
@@ -608,15 +611,55 @@ public class WebApplicationSteps {
     }
     @When("a hacker requests from the payments api: $path")
     public void requestAdminsDetailsFromPaymentsApi(String path) {
-        WebDriver driver = ((WebApplication) app).getWebDriver();
+        WebDriver driver = app.getWebDriver();
         driver.get("http://localhost:8082"+path);
     }
 
-    @Then("the users bank details should be returned")
+    @Then("the users bank details should not be returned")
     public void AdminsDetailsShouldBeReturned() {
-        WebDriver driver = ((WebApplication) app).getWebDriver();
-        assertThat(driver.getPageSource().contains("102030"), is(true));
-        assertThat(driver.getPageSource().contains("12345679"), is(true));
+        WebDriver driver = app.getWebDriver();
+        assertThat(driver.getPageSource().contains("102030"), is(false));
+        assertThat(driver.getPageSource().contains("12345678"), is(false));
+    }
+
+    public String executePost(String targetUrl, String urlParameters) throws Exception {
+        HttpURLConnection connection = null;
+            URL url = new URL(targetUrl);
+            connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
+            connection.setUseCaches(false);
+            connection.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+            wr.writeBytes(urlParameters);
+            wr.close();
+
+            InputStream is = connection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                response.append(line);
+                response.append("\r");
+            }
+            rd.close();
+            return response.toString();
+    }
+
+    String response = null;
+
+    @When("a hacker posts their bank details to the payments api: $path")
+    public void postBankDetails(String path) throws Exception {
+        // Use a HTTP Client to post to the API
+        String params = "sortcode="+URLEncoder.encode("987654", "UTF-8")+"&accountnumber="+URLEncoder.encode("87654321", "UTF-8");
+        response = executePost("http://paymentapi:8082"+path, params);
+    }
+
+    @Then("the payment should not be sent to the criminal")
+    public void checkBankDetails() {
+        assertThat(response.contains("987654"), is(false));
+        assertThat(response.contains("87654321"), is(false));
     }
 }
 
