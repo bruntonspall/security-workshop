@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<web-app>
+
+    <!-- The web driver to use, can be either Firefox or Chrome.  Optionally specify path to the driver (required for linux)
+         Some drivers require a path to the platform specific driver binary, for example chrome needs chromedriver.  If these values are not specified, we'll try auto-detection.
+    <defaultDriver>firefox</defaultDriver>
+    <defaultDriver path="drivers/chromedriver-mac">Chrome</defaultDriver>-->
+    
+    <defaultDriver path="drivers/chromedriver-linux64">Chrome</defaultDriver>
+    <!--<defaultDriver>firefox</defaultDriver>-->
+
+    <!-- Base URL of the application to test -->
+    <baseUrl>http://localhost/</baseUrl>
+
+    <users>
+        <user username="admin" password="password1"/>
+        <user username="anna" password="letmein"/>
+    </users>
+
+
+    <!-- A Java class to hold the Selenium steps to test the application in depth. Optionally required for in-depth selenium testing.-->
+    <class>net.continuumsecurity.WorkshopTasksApplication</class>
+
+    <zapPath>zap/zap.sh</zapPath>
+
+    <displayStackTrace>true</displayStackTrace>
+    <storyDir>src/main/stories/</storyDir>
+    <reportsDir>reports</reportsDir>
+    <latestReportsDir>reports/latest</latestReportsDir>
+    <storyTimeout>30</storyTimeout> <!-- for a single story in seconds -->
+</web-app>
