@@ -1,0 +1,5 @@
+* Add slides to introduce the architecture
+* Outline what I'll talk about, not just here is SQL Injection!
+* Build vagrant box with docker images installed
+* Outline deliberate flaws to fix later
+* Check code
