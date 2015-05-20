@@ -653,7 +653,7 @@ public class WebApplicationSteps {
     public void postBankDetails(String path) throws Exception {
         // Use a HTTP Client to post to the API
         String params = "sortcode="+URLEncoder.encode("987654", "UTF-8")+"&accountnumber="+URLEncoder.encode("87654321", "UTF-8");
-        response = executePost("http://paymentapi:8082"+path, params);
+        response = executePost("http://localhost:8082"+path, params);
     }
 
     @Then("the payment should not be sent to the criminal")

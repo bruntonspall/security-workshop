@@ -12,9 +12,9 @@ def login():
     username = request.values['username']
     password = request.values['password']
     payload = {'username':username, 'password':password}
-    r = requests.post('http://userapi:8080/auth', params=payload)
+    r = requests.post('http://userapi:8080/auth2', params=payload)
     if r.status_code == 200:
-        session['username'] = username
+        session['username'] = r.json()['token']
         return redirect('/claim')
     else:
         flash('Username/Password incorrect')
