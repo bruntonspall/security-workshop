@@ -21,4 +21,4 @@ Given a new browser instance
 When the user logs in from a fresh login page
 And the user has made a claim
 And a hacker posts their bank details to the payments api: /account/admin
-Then the payment should not be to the criminal
+Then the payment should not be sent to the criminal

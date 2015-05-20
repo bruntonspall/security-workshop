@@ -623,9 +623,10 @@ public class WebApplicationSteps {
     }
 
     public String executePost(String targetUrl, String urlParameters) throws Exception {
-        HttpURLConnection connection = null;
+        try {
+            HttpURLConnection connection = null;
             URL url = new URL(targetUrl);
-            connection = (HttpURLConnection)url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
@@ -645,6 +646,9 @@ public class WebApplicationSteps {
             }
             rd.close();
             return response.toString();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     String response = null;
