@@ -30,7 +30,7 @@
 
     <users>
         <user username="admin" password="password1"/>
-        <user username="anna" password="letmein"/>
+        <user username="anna" password="letmein1"/>
     </users>
 
     <incorrectPassword>SDFsdfwjx1</incorrectPassword>
