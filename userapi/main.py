@@ -1,5 +1,6 @@
 from flask import Flask, render_template, json, jsonify, request, abort
 from database import db_session, engine, init_db
+from sqlalchemy.sql import text
 from models import User, users
 import hashlib
 
@@ -21,9 +22,14 @@ def setup():
 
 @app.route("/auth", methods=["POST"])
 def auth():
+    # Lowercase passwords so password check is case insensitive
     username = request.values["username"].lower()
     password = request.values["password"].lower()
-    rows = engine.execute("select id from users where name = '%s' and password = '%s'" % (username, password)).first()
+    # username = request.values["username"]
+    # password = request.values["password"]
+
+    # rows = engine.execute("select id from users where name = '%s' and password = '%s'" % (username, password)).first()
+    rows = User.query.filter(User.name == username).filter(User.password == password).first()
     if rows:
         return jsonify(status='ok', username=username)
     else:
