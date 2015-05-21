@@ -3,3 +3,6 @@
 * Build vagrant box with docker images installed
 * Outline deliberate flaws to fix later
 * Check code
+  * Prepare fix for SQL Injection
+  * Prepare break/fix for password case sensitivity
+  * Check misuse cases correctly fail
