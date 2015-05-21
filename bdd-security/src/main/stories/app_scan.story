@@ -11,6 +11,7 @@ GivenStories: navigate_app.story
 
 Scenario: The application should not contain SQL injection vulnerabilities
 Meta: @id scan_sql_injection @cwe-89
+!-- |http://localhost/login         |                   |0      |0      |
 Given a scanner with all policies disabled
 And all existing alerts are deleted
 And the URL regular expressions listed in the file: tables/exclude_urls.table are excluded from the scanner
@@ -19,7 +20,10 @@ And the attack strength is set to High
 And the alert threshold is set to Low
 When the scanner is run
 And the following false positives are removed
-|url                           |parameter           |cweid  |wascid |
+|url                            |parameter          |cweid  |wascid |
+|http://localhost/static/js     |                   |0      |0      |
+|http://localhost/sitemap.xml   |                   |0      |0      |
+|http://localhost/robots.txt    |                   |0      |0      |
 And the XML report is written to the file sql_injection.xml
 Then no Medium or higher risk vulnerabilities should be present
 
