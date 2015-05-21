@@ -10,10 +10,9 @@ Meta: @story authentication
 Scenario: Passwords should be case sensitive
 Meta: @id auth_case @cwe-178-auth
 Given a new browser instance
-When the default user logs in with credentials from: users.table
-Then the user is logged in
+And the default user from: users.table
 When the case of the password is changed
-And the user logs in from a fresh login page
+And the user logs in
 Then the user is not logged in
 
 Scenario: Present the login form itself over an HTTPS connection

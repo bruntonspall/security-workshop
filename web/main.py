@@ -5,6 +5,7 @@ app.secret_key = '12345678'
 
 @app.route("/")
 def hello():
+    session['username'] = None
     return render_template('index.html')
 
 @app.route("/login", methods=["POST"])
@@ -12,9 +13,9 @@ def login():
     username = request.values['username']
     password = request.values['password']
     payload = {'username':username, 'password':password}
-    r = requests.post('http://userapi:8080/auth2', params=payload)
+    r = requests.post('http://userapi:8080/auth', params=payload)
     if r.status_code == 200:
-        session['username'] = r.json()['token']
+        session['username'] = r.json()['username']
         return redirect('/claim')
     else:
         flash('Username/Password incorrect')

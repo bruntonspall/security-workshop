@@ -14,39 +14,39 @@ def shutdown_session(exception=None):
 def setup():
     init_db()
     con = engine.connect()
+    con.execute(users.delete())
     con.execute(users.insert(), name='admin', email='admin@localhost', password='password1')
-    con.execute(users.insert(), name='anna', email='anna@localhost', password='letmein')
+    con.execute(users.insert(), name='anna', email='anna@localhost', password='letmein1')
     return "ok"
-
-@app.route("/user/<user>")
-def index(user):
-    u = engine.execute("select * from users where id = '%s'" % (user)).first()
-    #u = User.query.filter(User.name == 'admin').first()
-    return jsonify(name=u.name, email=u.email, id=u.id)
 
 @app.route("/auth", methods=["POST"])
 def auth():
-    username = request.values["username"]
-    password = request.values["password"]
+    username = request.values["username"].lower()
+    password = request.values["password"].lower()
     rows = engine.execute("select id from users where name = '%s' and password = '%s'" % (username, password)).first()
     if rows:
-        return jsonify({'status':'ok'})
+        return jsonify(status='ok', username=username)
     else:
         response = jsonify({'code': 404,'message': 'Username or password is incorrect'})
         response.status_code = 404
         return response
 
-@app.route("/auth2", methods=["POST"])
-def auth2():
-    username = request.values["username"]
-    password = request.values["password"]
-    rows = engine.execute("select id from users where name = '%s' and password = '%s'" % (username, password)).fetchall()
-    if len(rows) == 1:
-        return jsonify(token=hashlib.sha256(SECRET_KEY+str(rows[0][0])).hexdigest())
-    else:
-        response = jsonify({'code': 404,'message': 'Username or password is incorrect'})
-        response.status_code = 404
-        return response
+# Instead of returning username, return a hashed token.
+# The UserAPI is the only part of the system that can turn username into a token, and only will with the password
+# So an attacker needs the password to do anything on behalf of the user with other services
+# (Or to snoop the token, we could use a nonce, or time based token to counter that if we wanted)
+
+# @app.route("/auth", methods=["POST"])
+# def auth():
+#     username = request.values["username"]
+#     password = request.values["password"]
+#     rows = engine.execute("select id from users where name = '%s' and password = '%s'" % (username, password)).fetchall()
+#     if len(rows) == 1:
+#         return jsonify(status='ok', username=hashlib.sha256(SECRET_KEY+str(rows[0][0])).hexdigest())
+#     else:
+#         response = jsonify({'code': 404,'message': 'Username or password is incorrect'})
+#         response.status_code = 404
+#         return response
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

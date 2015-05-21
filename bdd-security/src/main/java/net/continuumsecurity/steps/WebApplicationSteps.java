@@ -114,7 +114,14 @@ public class WebApplicationSteps {
     @Given("the user logs in")
     public void loginWithSetCredentials() {
         assert credentials != null;
+        openLoginPage();
         ((ILogin) app).login(credentials);
+    }
+
+    @Given("the default user from: $credentialsTable")
+    public void credentialsFromTable(ExamplesTable credentialsTable) {
+        assert credentialsTable != null;
+        credentials = Utils.getDefaultCredentialsFromTable(credentialsTable);
     }
 
     @Given("the default user logs in with credentials from: $credentialsTable")
