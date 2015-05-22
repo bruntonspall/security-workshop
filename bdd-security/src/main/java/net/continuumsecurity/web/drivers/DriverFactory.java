@@ -24,6 +24,7 @@ import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
@@ -35,6 +36,7 @@ import java.io.File;
 public class DriverFactory {
     private final static String CHROME = "chrome";
     private final static String FIREFOX = "firefox";
+    private final static String HTMLUNIT = "htmlunit";
     private static DriverFactory dm;
     private static WebDriver driver;
     private static WebDriver proxyDriver;
@@ -101,12 +103,22 @@ public class DriverFactory {
     private WebDriver createDriver(String type) {
         if (type.equalsIgnoreCase(CHROME)) return createChromeDriver(new DesiredCapabilities());
         else if (type.equalsIgnoreCase(FIREFOX)) return createFirefoxDriver(null);
+        else if (type.equalsIgnoreCase(HTMLUNIT)) return createHtmlUnitWebDriver();
         throw new RuntimeException("Unsupported WebDriver browser: "+type);
+    }
+
+    private WebDriver createHtmlUnitWebDriver() {
+        HtmlUnitDriver htmlUnitDriver = new HtmlUnitDriver();
+        htmlUnitDriver.setProxy(Config.getInstance().getProxyHost(), Config.getInstance().getProxyPort());
+        htmlUnitDriver.setJavascriptEnabled(false);
+
+        return htmlUnitDriver;
     }
 
     private WebDriver createProxyDriver(String type) {
         if (type.equalsIgnoreCase(CHROME)) return createChromeDriver(createProxyCapabilities());
         else if (type.equalsIgnoreCase(FIREFOX)) return createFirefoxDriver(createProxyCapabilities());
+        else if (type.equalsIgnoreCase(HTMLUNIT)) return createHtmlUnitWebDriver();
         throw new RuntimeException("Unsupported WebDriver browser: "+type);
     }
 

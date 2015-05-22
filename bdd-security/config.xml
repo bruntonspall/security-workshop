@@ -9,8 +9,8 @@
     <defaultDriver>firefox</defaultDriver>
     <defaultDriver path="drivers/chromedriver-mac">Chrome</defaultDriver>-->
     
-    <defaultDriver path="drivers/chromedriver-linux64">Chrome</defaultDriver>
-    <!--<defaultDriver>firefox</defaultDriver>-->
+    <!--<defaultDriver path="drivers/chromedriver-linux64">Chrome</defaultDriver>-->
+    <defaultDriver>htmlunit</defaultDriver>
 
     <!-- Base URL of the application to test -->
     <baseUrl>http://localhost/</baseUrl>

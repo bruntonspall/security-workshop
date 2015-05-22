@@ -18,6 +18,9 @@
  ******************************************************************************/
 package net.continuumsecurity.web.drivers;
 
+import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
+import com.gargoylesoftware.htmlunit.ProxyConfig;
+import com.gargoylesoftware.htmlunit.WebClient;
 import net.continuumsecurity.Config;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Proxy;
@@ -27,14 +30,18 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
+import java.io.IOException;
 
 public class DriverFactory {
     private final static String CHROME = "chrome";
     private final static String FIREFOX = "firefox";
+    private final static String HTMLUNIT = "htmlunit";
+    private final static String PHANTOMJS = "phantomjs";
     private static DriverFactory dm;
     private static WebDriver driver;
     private static WebDriver proxyDriver;
@@ -101,9 +108,22 @@ public class DriverFactory {
     private WebDriver createDriver(String type) {
         if (type.equalsIgnoreCase(CHROME)) return createChromeDriver(new DesiredCapabilities());
         else if (type.equalsIgnoreCase(FIREFOX)) return createFirefoxDriver(null);
+        else if (type.equalsIgnoreCase(HTMLUNIT)) return createHtmlUnitWebDriver();
+//        else if (type.equalsIgnoreCase(PHANTOMJS)) try {
+//            return new PhantomJSDriver(Config.getInstance().getDefaultDriverPath(), Config.getInstance().getProxyHost(), Config.getInstance().getProxyPort());
+//        } catch (IOException e) {
+//            throw new RuntimeException("Unsupported WebDriver browser: "+type);
+//        }
         throw new RuntimeException("Unsupported WebDriver browser: "+type);
     }
 
+    private WebDriver createHtmlUnitWebDriver() {
+        HtmlUnitDriver htmlUnitDriver = new HtmlUnitDriver();
+        htmlUnitDriver.setProxy(Config.getInstance().getProxyHost(), Config.getInstance().getProxyPort());
+        htmlUnitDriver.setJavascriptEnabled(false);
+
+        return htmlUnitDriver;
+    }
     private WebDriver createProxyDriver(String type) {
         if (type.equalsIgnoreCase(CHROME)) return createChromeDriver(createProxyCapabilities());
         else if (type.equalsIgnoreCase(FIREFOX)) return createFirefoxDriver(createProxyCapabilities());

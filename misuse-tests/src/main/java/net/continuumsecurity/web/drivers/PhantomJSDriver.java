@@ -1,5 +1,7 @@
 package net.continuumsecurity.web.drivers;
 
+import org.openqa.selenium.WebDriver;
+
 import java.io.IOException;
 
 public class PhantomJSDriver {
