@@ -17,7 +17,12 @@ This should install boot2docker, so that you can work with the docker image that
 
 ## Linux
 
-TODO
+install vagrant from http://www.vagrantup.com/
+
+```
+vagrant up
+vagrant ssh
+```
 
 # Running the app
 
