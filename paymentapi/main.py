@@ -1,12 +1,20 @@
 from flask import Flask, jsonify, request, json
-from database import db_session, init_db
-from models import BankAccount, Payment
+from database import db_session, init_db, engine
+from models import BankAccount, Payment, accounts, payments
 
 app = Flask(__name__)
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
+
+@app.route("/setup")
+def setup():
+    init_db()
+    con = engine.connect()
+    con.execute(accounts.delete())
+    con.execute(payments.delete())
+
 
 @app.route("/account", methods=["POST"])
 def create_account():

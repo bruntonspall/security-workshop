@@ -9,16 +9,20 @@ Meta: @story steal-bank-creds
 
 Scenario: Bank credentials should be accessible to all
 Meta: @id bank-creds-open
-Given a new browser instance
-When the user logs in from a fresh login page
-And the user has made a claim
-And a hacker requests from the payments api: /account/admin
+Given the system contains a claim
+When a hacker requests data from the payments api using a username
 Then the users bank details should not be returned
+
 
 Scenario: Bank credentials should be updatable with just username
 Meta: @id bank-creds-open
-Given a new browser instance
-When the user logs in from a fresh login page
-And the user has made a claim
-And a hacker posts their bank details to the payments api: /account/admin
+Given the system contains a claim
+When a hacker posts their bank details to the payments api using a username
 Then the payment should not be sent to the criminal
+
+
+Scenario: A fraudster cannot use the same bank account for multiple claims
+Meta: @id bank-creds-open
+Given the system contains a claim
+When a fraudster posts a duplicate bank details claim
+Then the second claim should not be paid
