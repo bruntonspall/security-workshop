@@ -1,5 +1,5 @@
 #!/bin/sh
 export PORT="-p 80:80"
-export NAME=""
+export NAME="--name security-workshop-nginx"
 export CONTAINER="nginx"
-export LINK="--link web:web"
+export LINK="--link security-workshop-web:web"
