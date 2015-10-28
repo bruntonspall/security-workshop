@@ -34,7 +34,7 @@ public class WorkshopTasksApplication extends WebApplication implements ILogin,
         driver.findElement(By.id("username")).sendKeys(creds.getUsername());
         driver.findElement(By.id("password")).clear();
         driver.findElement(By.id("password")).sendKeys(creds.getPassword());
-        driver.findElement(By.id("login")).click();
+        driver.findElement(By.id("loginform")).submit();
     }
 
     // Convenience method
@@ -44,11 +44,7 @@ public class WorkshopTasksApplication extends WebApplication implements ILogin,
 
     @Override
     public boolean isLoggedIn() {
-        if (driver.getPageSource().contains("Your bank details")) {
-            return true;
-        } else {
-            return false;
-        }
+        return driver.getPageSource().contains("Your bank details");
     }
 
     // App Specific methods
@@ -57,7 +53,8 @@ public class WorkshopTasksApplication extends WebApplication implements ILogin,
         driver.findElement(By.id("sortcode")).sendKeys("102030");
         driver.findElement(By.id("account")).clear();
         driver.findElement(By.id("account")).sendKeys("12345678");
-        driver.findElement(By.id("update")).click();
+        driver.findElement(By.id("accountform")).submit();
+
     }
 
     public void claimPayment() {
