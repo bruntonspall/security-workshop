@@ -22,6 +22,7 @@ install vagrant from http://www.vagrantup.com/
 ```
 vagrant up
 vagrant ssh
+pushd /vagrant
 ```
 
 # Running the app
